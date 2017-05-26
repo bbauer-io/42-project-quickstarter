@@ -16,7 +16,7 @@ LIBDIR = ./libft/
 FTPFDIR = ./ft_printf/
 INCDIR = ./include/
 
-.PHONY: $(NAME), all, clean, fclean, re, $(LIBFT)
+.PHONY: all, clean, fclean, re
 
 all: $(LIBFT) $(FT_PRINTF) $(NAME)
 
@@ -37,7 +37,7 @@ $(FT_PRINTF): $(LIBFT)
 clean:
 	@echo "Cleaning __NAME_PLACEHOLDER__"
 	@rm -rf $(OBJDIR)
-	@rm -f __NAME_PLACEHOLDER___debug.dSYM_ 
+	@rm -f __NAME_PLACEHOLDER___debug.dSYM
 	@rm -rf __NAME_PLACEHOLDER___debug.dSYM
 	@rm -f __NAME_PLACEHOLDER___leakcheck
 	@rm -rf __NAME_PLACEHOLDER___leakcheck.dSYM
@@ -46,7 +46,7 @@ clean:
 
 fclean: clean
 	@echo "FCleaning __NAME_PLACEHOLDER__"
-	@rm -f $(NAME) checker
+	@rm -f $(NAME)
 	@make -C $(LIBDIR) fclean
 	@make -C $(FTPFDIR) fclean
 
