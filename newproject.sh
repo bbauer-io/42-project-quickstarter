@@ -17,12 +17,12 @@ printf "Where would you like to save this project? ( path from ~/ )\n"
 read PREFIX
 
 #Ask if user would like to initialize a Github repository:
-printf "Would you like to initialize a git repository?\n"
+printf "Would you like to initialize a Github repository?\n"
 select CHOOSE in "Yes" "No"
 do
 	case $CHOOSE in
 		Yes)
-			printf "Please paste the URL:\n"
+			printf "Please paste the Github repository URL:\n"
 			read GITHUB
 			break
 			;;
@@ -33,12 +33,12 @@ do
 done
 
 #Ask if user would like to initialize a Vogsphere repository:
-printf "Would you like to initialize a git repository?\n"
+printf "Would you like to initialize a Vogsphere repository?\n"
 select CHOOSE in "Yes" "No"
 do
 	case $CHOOSE in
 		Yes)
-			printf "Please paste the URL:\n"
+			printf "Please paste the Vogsphere repository URL:\n"
 			read VOGSPHERE
 			break
 			;;
@@ -52,8 +52,9 @@ echo "hold on to your butts..."
 
 #Create files and directories:
 printf "populating...\n"
-DIR="~/$PREFIX/$NAME"
-mkdir -p $DIR/include $DIR/tests $DIR/src/libft $DIR/src/ft_printf
+DIR=~/$PREFIX/$NAME
+mkdir -p $DIR/include $DIR/tests $DIR/libft $DIR/src $DIR/ft_printf
+cp Makefile $DIR
 cd $DIR
 printf ":Stdheader\n:$\ndd\n:wq\n" > tmpvimcmd
 vim -s tmpvimcmd include/$NAME.h
@@ -63,25 +64,26 @@ vim -s tmpvimcmd src/$NAME.c
 printf "#include \"../include/$NAME.h\"\n\n\n" >> src/$NAME.c
 printf "tests\n" > .gitignore
 
-#Create a basic Makefile
+#Configure a basic Makefile
 vim -s tmpvimcmd Makefile
+sed  -i.modified "s/__NAME_PLACEHOLDER__/$NAME/g" Makefile
+mv Makefile.modified Makefile
 
 rm tmpvimcmd
 
 #Clone libft from my public repository
 printf "cloning libft...\n"
-git clone $LIBFT /tmp/libft > /dev/null 2>&1
-cp -R /tmp/libft/* src/libft/
-mv $DIR/src/libft/libft.h $DIR/include/
-rm -rf $DIR/src/libft/.git
+git clone $LIBFT /tmp/libft #> /dev/null 2>&1
+cp -R /tmp/libft/* libft/
+mv $DIR/libft/libft.h $DIR/include/
+rm -rf $DIR/libft/.git
 rm -rf /tmp/libft
 
 #Clone ft_printf from my public repository
 printf "cloning ft_printf...\n"
-git clone $FT_PRINTF /tmp/ft_printf > /dev/null 2>&1
-cp -R /tmp/ft_printf/ft_printf/* src/ft_printf/
-mv $DIR/src/ft_printf/ft_printf.h $DIR/include/
-rm -rf $DIR/src/ft_printf/.git
+git clone $FT_PRINTF /tmp/ft_printf #> /dev/null 2>&1
+mv /tmp/ft_printf/src/* ft_printf/
+mv /tmp/ft_printf/include/ft_printf.h $DIR/include/
 rm -rf /tmp/ft_printf
 
 #Configure basic git repository settings.
