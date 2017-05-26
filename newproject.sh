@@ -65,9 +65,9 @@ printf "#include \"../include/$NAME.h\"\n\n\n" >> src/$NAME.c
 printf "tests\n" > .gitignore
 
 #Configure a basic Makefile
+sed -i.mod "s|__NAME_PLACEHOLDER__|$NAME|g" Makefile
+rm Makefile.mod
 vim -s tmpvimcmd Makefile
-sed  -i.modified "s/__NAME_PLACEHOLDER__/$NAME/g" Makefile
-mv Makefile.modified Makefile
 
 rm tmpvimcmd
 
